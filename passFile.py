@@ -18,7 +18,7 @@ def passFile(server_socket):
     return
 
 def main():
-    target_host = "192.168.1.106"
+    target_host = input("input target ip:")
     target_port = 9999
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((target_host, target_port))

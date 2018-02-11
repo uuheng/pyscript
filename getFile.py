@@ -22,7 +22,7 @@ def getFile(client_socket):
     return
 
 def main():
-    bind_ip = '192.168.1.106'
+    bind_ip = input("input server ip address:")
     bind_port = 9999
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((bind_ip, bind_port))
